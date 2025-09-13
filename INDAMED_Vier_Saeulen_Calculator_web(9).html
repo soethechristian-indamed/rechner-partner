@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>INDAMED – Vier‑Säulen‑Rechner (Standalone)</title>
+<style>
+:root{--red:#BA0C2F;--dark:#282828;--light:#f5f5f5;}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;margin:0;background:#fff;color:var(--dark);}
+header{background:var(--red);color:#fff;padding:20px 24px;}
+h1{margin:0;font-size:22px;}
+main{padding:20px 24px;max-width:1000px;margin:0 auto;}
+section{margin-bottom:18px;padding:16px;border:1px solid #eee;border-radius:10px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+section h2{margin:0 0 10px 0;font-size:18px;color:var(--red)}
+.grid{display:grid;grid-template-columns:repeat(4, minmax(120px,1fr));gap:10px;}
+label{font-size:13px;color:#444}
+input[type="number"]{width:100%;padding:8px;border:1px solid #ddd;border-radius:8px;font-size:14px}
+.small{font-size:12px;color:#666}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{background:var(--red);color:#fff;border:none;border-radius:10px;padding:10px 14px;font-weight:600;cursor:pointer}
+.output{display:flex;gap:16px;flex-wrap:wrap;align-items:stretch}
+.kpi{flex:1;min-width:220px;border:1px solid #eee;border-radius:10px;padding:12px}
+.kpi h3{margin:0 0 6px 0;font-size:16px;color:#333}
+.kpi .val{font-size:28px;font-weight:800}
+.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#eee;font-weight:700}
+.badge.bronze{background:#cd7f32;color:#fff}
+.badge.silber{background:#aaaaaa;color:#fff}
+.badge.gold{background:#dbc23c;color:#1a1a1a}
+.badge.platin{background:#c4ced4;color:#1a1a1a}
+.barwrap{display:flex;gap:10px;margin-top:10px}
+.bar{flex:1;background:#eee;border-radius:8px;overflow:hidden;height:14px;position:relative}
+.bar>i{display:block;height:100%;background:var(--red);width:0%}
+footer{padding:20px 24px;color:#777}
+code{background:#f7f7f7;padding:2px 6px;border-radius:6px}
+</style>
+</head>
+<body>
+<header>
+<h1>INDAMED – Vier‑Säulen‑Rechner (Standalone)</h1>
+<div class="small">Neukunden • Arbeitsplätze • Modulverkauf • Qualität  |  Overachievement (nur NK/AP/MOD) &amp; Qualitäts‑Faktor</div>
+</header>
+<main>
+<section>
+<h2>Eingaben – Ziele &amp; Ist</h2>
+<div class="grid">
+<div><label>Neukunden – Ziel</label><input id="znk" min="0" step="1" type="number" value="8"/></div>
+<div><label>Neukunden – Ist</label><input id="ink" min="0" step="1" type="number" value="10"/></div>
+<div><label>Arbeitsplätze – Ziel</label><input id="zap" min="0" step="1" type="number" value="40"/></div>
+<div><label>Arbeitsplätze – Ist</label><input id="iap" min="0" step="1" type="number" value="35"/></div>
+<div><label>Module – Ziel</label><input id="zmod" min="0" step="1" type="number" value="24"/></div>
+<div><label>Module – Ist</label><input id="imod" min="0" step="1" type="number" value="18"/></div>
+<div><label>SLA (%)</label><input id="sla" max="100" min="0" step="1" type="number" value="90"/></div>
+<div><label>Leadpflege vollständig (%)</label><input id="lead" max="100" min="0" step="1" type="number" value="90"/></div>
+</div>
+</section>
+<section>
+<h2>Parameter – Gewichte, Cap &amp; Schwellen</h2>
+<div class="grid">
+<div><label>Gewicht Neukunden</label><input id="wNk" max="1" min="0" step="0.01" type="number" value="0.35"/></div>
+<div><label>Gewicht Arbeitsplätze</label><input id="wAp" max="1" min="0" step="0.01" type="number" value="0.20"/></div>
+<div><label>Gewicht Modulverkauf</label><input id="wMod" max="1" min="0" step="0.01" type="number" value="0.25"/></div>
+<div><label>Gewicht Qualität</label><input id="wQ" max="1" min="0" step="0.01" type="number" value="0.20"/></div>
+<div><label>Overachievement je Säule (Cap x‑fach, nur NK/AP/MOD)</label><input id="cap" max="3" min="1" step="0.05" type="number" value="1.50"/></div>
+<div><label>Silber‑Schwelle</label><input id="thSilber" max="300" min="0" step="1" type="number" value="60"/></div>
+<div><label>Gold‑Schwelle</label><input id="thGold" max="300" min="0" step="1" type="number" value="80"/></div>
+<div><label>Platin‑Schwelle</label><input id="thPlatin" max="300" min="0" step="1" type="number" value="125"/></div>
+<div><label>SLA‑Mindestwert (%)</label><input id="thSLA" max="100" min="0" step="1" type="number" value="90"/></div>
+<div><label>Lead‑Mindestwert (%)</label><input id="thLead" max="100" min="0" step="1" type="number" value="90"/></div>
+</div>
+<div class="small" style="margin-top:8px">
+<b>Hinweis:</b> Der <em>Cap</em> gilt nur für NK/AP/MOD und erlaubt Erfüllungen &gt; 100 % (z. B. 120 %, 140 %).
+      Qualität ist ein Prozentwert (0–100 %) und wird nicht über 100 % erhöht.
+    </div>
+</section>
+<section>
+<h2>Ergebnisse</h2>
+<div class="output">
+<div class="kpi">
+<h3>Gesamtscore (final)</h3>
+<div class="val" id="score">–</div>
+<div class="small">Max: <span id="maxScore">–</span></div>
+<div class="barwrap"><div class="bar"><i id="scoreBar"></i></div></div>
+</div>
+<div class="kpi">
+<h3>Stufe (final)</h3>
+<div class="val"><span class="badge" id="tierFinal">–</span></div>
+<div class="small" id="qualMsg"></div>
+</div>
+<div class="kpi">
+<h3>Teil‑Erfüllungen (0–100 %)</h3>
+<div class="small">NK / AP / MOD / Q</div>
+<div class="barwrap">
+<div class="bar"><i id="bNk"></i></div>
+<div class="bar"><i id="bAp"></i></div>
+<div class="bar"><i id="bMod"></i></div>
+<div class="bar"><i id="bQ"></i></div>
+</div>
+</div>
+</div>
+<div class="row" style="margin-top:12px">
+<button class="btn" onclick="resetDefaults()">Zurücksetzen</button>
+<button class="btn" onclick="exportCSV()">CSV exportieren</button>
+<span class="small">Diese Datei läuft ohne Installation – einfach im Browser öffnen.</span>
+</div>
+</section>
+</main>
+<footer>
+  © INDAMED – Beispielrechner. Formel: Score = 100 × Σ(Gewicht × Erfüllung). Qualitäts‑Faktor: 1,00 (ok) · 0,90 (ein Kriterium verfehlt) · 0,80 (beide). Kein Stufendeckel.
+</footer>
+<script>
+function clamp(v,min,max){return Math.max(min,Math.min(max,v));}
+function tierFromScore(s, th){ if(s>=th.platin) return "Platin"; if(s>=th.gold) return "Gold"; if(s>=th.silber) return "Silber"; return "Bronze"; }
+function clsForTier(t){ return {Bronze:"badge bronze", Silber:"badge silber", Gold:"badge gold", Platin:"badge platin"}[t]||"badge"; }
+function readNum(id){ return parseFloat(document.getElementById(id).value)||0; }
+function setBar(id, frac){ document.getElementById(id).style.width = (clamp(frac,0,1)*100).toFixed(0)+"%"; }
+
+function calc(){
+  // Inputs
+  const znk=readNum("znk"), ink=readNum("ink");
+  const zap=readNum("zap"), iap=readNum("iap");
+  const zmod=readNum("zmod"), imod=readNum("imod");
+  const sla=clamp(readNum("sla"),0,100), lead=clamp(readNum("lead"),0,100);
+  const wNk=readNum("wNk"), wAp=readNum("wAp"), wMod=readNum("wMod"), wQ=readNum("wQ");
+  const cap=readNum("cap");
+  const th={ silber:readNum("thSilber"), gold:readNum("thGold"), platin:readNum("thPlatin") };
+  const thSLA=readNum("thSLA"), thLead=readNum("thLead");
+
+  // Weight sanity
+  const wSum = wNk+wAp+wMod+wQ;
+  if (Math.abs(wSum-1) > 1e-6) {
+    document.getElementById("score").innerText="Gewichte ≠ 1,00 (aktuell: "+wSum.toFixed(2)+")";
+    document.getElementById("tierFinal").innerText="–";
+    document.getElementById("tierFinal").className="badge";
+    document.getElementById("qualMsg").innerText="";
+    setBar("scoreBar", 0);
+    ["bNk","bAp","bMod","bQ"].forEach(id=>setBar(id,0));
+    return;
+  }
+
+  // Fulfillments (cap only for NK/AP/MOD)
+  const fNkRaw = znk>0 ? (ink/znk) : 0;
+  const fApRaw = zap>0 ? (iap/zap) : 0;
+  const fModRaw = zmod>0 ? (imod/zmod) : 0;
+  const fNk = Math.min(fNkRaw, cap);
+  const fAp = Math.min(fApRaw, cap);
+  const fMod = Math.min(fModRaw, cap);
+  const fQ  = ((sla/100)+(lead/100))/2; // no cap > 100%
+
+  // Part scores
+  const partNk = 100*(wNk*fNk);
+  const partAp = 100*(wAp*fAp);
+  const partMod = 100*(wMod*fMod);
+  const partQ = 100*(wQ*fQ);
+  const preScore = partNk + partAp + partMod + partQ;
+
+  // Quality multiplier (always on)
+  let qFactor = 1.0;
+  let reason = "Qualität ok";
+  const slaOk = (sla>=thSLA), leadOk = (lead>=thLead);
+  if (slaOk && leadOk) { qFactor = 1.00; reason = "Qualität ok"; }
+  else if (!slaOk && !leadOk) { qFactor = 0.80; reason = "beide Kriterien verfehlt"; }
+  else { qFactor = 0.90; reason = "ein Kriterium verfehlt"; }
+
+  const finalScore = preScore * qFactor;
+
+  // Max score = cap for NK/AP/MOD, 1.0 for Q
+  const maxScore = 100*(wNk*cap + wAp*cap + wMod*cap + wQ*1.0);
+
+  // Final tier
+  let finalTier = "Bronze";
+  if (finalScore >= th.platin) finalTier = "Platin";
+  else if (finalScore >= th.gold) finalTier = "Gold";
+  else if (finalScore >= th.silber) finalTier = "Silber";
+
+  // Output
+  document.getElementById("score").innerText = finalScore.toFixed(1) + " Punkte";
+  document.getElementById("maxScore").innerText = maxScore.toFixed(0);
+  setBar("scoreBar", finalScore/maxScore);
+  const fin = document.getElementById("tierFinal");
+  fin.innerText = finalTier; fin.className = clsForTier(finalTier);
+  document.getElementById("qualMsg").innerText = "Qualitäts‑Faktor: " + qFactor.toFixed(2) + " (" + reason + ")";
+
+  // Bars show fulfillment to 100%
+  setBar("bNk", Math.min(fNkRaw,1));
+  setBar("bAp", Math.min(fApRaw,1));
+  setBar("bMod", Math.min(fModRaw,1));
+  setBar("bQ", Math.min(fQ,1));
+}
+
+function resetDefaults(){
+  document.querySelectorAll("input").forEach(el=>{
+    if(el.type==="number") el.value=el.defaultValue||el.value;
+  });
+  calc();
+}
+
+function exportCSV(){
+  const rows = [];
+  function val(id){return document.getElementById(id).value}
+  rows.push(["Feld","Wert"]);
+  ["znk","ink","zap","iap","zmod","imod","sla","lead","wNk","wAp","wMod","wQ","cap","thSilber","thGold","thPlatin","thSLA","thLead"].forEach(id=>{
+    rows.push([id, val(id)]);
+  });
+  const csv = rows.map(r=>r.map(x=>`"${String(x).replace(/"/g,'""')}"`).join(",")).join("\n");
+  const blob = new Blob([csv],{type:"text/csv"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href=url; a.download="vier_saeulen_export.csv"; a.click();
+  URL.revokeObjectURL(url);
+}
+
+document.addEventListener("input", calc);
+window.addEventListener("load", calc);
+</script>
+</body>
+</html>
