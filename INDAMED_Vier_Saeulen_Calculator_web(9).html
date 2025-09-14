@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-
 <html lang="de">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>INDAMED – Vier‑Säulen‑Rechner (Standalone)</title>
 <style>
 :root{--red:#BA0C2F;--dark:#282828;--light:#f5f5f5;}
@@ -24,7 +23,7 @@ input[type="number"]{width:100%;padding:8px;border:1px solid #ddd;border-radius:
 .kpi h3{margin:0 0 6px 0;font-size:16px;color:#333}
 .kpi .val{font-size:28px;font-weight:800}
 .badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#eee;font-weight:700}
-.badge.bronze{background:#cd7f32;color:#fff}
+.badge.qp{background:#6b7280;color:#fff} /* Anthrazit für Qualifizierter Partner */
 .badge.silber{background:#aaaaaa;color:#fff}
 .badge.gold{background:#dbc23c;color:#1a1a1a}
 .badge.platin{background:#c4ced4;color:#1a1a1a}
@@ -37,83 +36,90 @@ code{background:#f7f7f7;padding:2px 6px;border-radius:6px}
 </head>
 <body>
 <header>
-<h1>INDAMED – Vier‑Säulen‑Rechner (Standalone)</h1>
-<div class="small">Neukunden • Arbeitsplätze • Modulverkauf • Qualität  |  Overachievement (nur NK/AP/MOD) &amp; Qualitäts‑Faktor</div>
+  <h1>INDAMED – Vier‑Säulen‑Rechner (Standalone)</h1>
+  <div class="small">Neukunden • Arbeitsplätze • Modulverkauf • Qualität &nbsp;|&nbsp; Overachievement (nur NK/AP/MOD) & Qualitäts‑Faktor</div>
 </header>
 <main>
-<section>
-<h2>Eingaben – Ziele &amp; Ist</h2>
-<div class="grid">
-<div><label>Neukunden – Ziel</label><input id="znk" min="0" step="1" type="number" value="8"/></div>
-<div><label>Neukunden – Ist</label><input id="ink" min="0" step="1" type="number" value="10"/></div>
-<div><label>Arbeitsplätze – Ziel</label><input id="zap" min="0" step="1" type="number" value="40"/></div>
-<div><label>Arbeitsplätze – Ist</label><input id="iap" min="0" step="1" type="number" value="35"/></div>
-<div><label>Module – Ziel</label><input id="zmod" min="0" step="1" type="number" value="24"/></div>
-<div><label>Module – Ist</label><input id="imod" min="0" step="1" type="number" value="18"/></div>
-<div><label>SLA (%)</label><input id="sla" max="100" min="0" step="1" type="number" value="90"/></div>
-<div><label>Leadpflege vollständig (%)</label><input id="lead" max="100" min="0" step="1" type="number" value="90"/></div>
-</div>
-</section>
-<section>
-<h2>Parameter – Gewichte, Cap &amp; Schwellen</h2>
-<div class="grid">
-<div><label>Gewicht Neukunden</label><input id="wNk" max="1" min="0" step="0.01" type="number" value="0.35"/></div>
-<div><label>Gewicht Arbeitsplätze</label><input id="wAp" max="1" min="0" step="0.01" type="number" value="0.20"/></div>
-<div><label>Gewicht Modulverkauf</label><input id="wMod" max="1" min="0" step="0.01" type="number" value="0.25"/></div>
-<div><label>Gewicht Qualität</label><input id="wQ" max="1" min="0" step="0.01" type="number" value="0.20"/></div>
-<div><label>Overachievement je Säule (Cap x‑fach, nur NK/AP/MOD)</label><input id="cap" max="3" min="1" step="0.05" type="number" value="1.50"/></div>
-<div><label>Silber‑Schwelle</label><input id="thSilber" max="300" min="0" step="1" type="number" value="60"/></div>
-<div><label>Gold‑Schwelle</label><input id="thGold" max="300" min="0" step="1" type="number" value="80"/></div>
-<div><label>Platin‑Schwelle</label><input id="thPlatin" max="300" min="0" step="1" type="number" value="125"/></div>
-<div><label>SLA‑Mindestwert (%)</label><input id="thSLA" max="100" min="0" step="1" type="number" value="90"/></div>
-<div><label>Lead‑Mindestwert (%)</label><input id="thLead" max="100" min="0" step="1" type="number" value="90"/></div>
-</div>
-<div class="small" style="margin-top:8px">
-<b>Hinweis:</b> Der <em>Cap</em> gilt nur für NK/AP/MOD und erlaubt Erfüllungen &gt; 100 % (z. B. 120 %, 140 %).
-      Qualität ist ein Prozentwert (0–100 %) und wird nicht über 100 % erhöht.
+  <section>
+    <h2>Eingaben – Ziele & Ist</h2>
+    <div class="grid">
+      <div><label>Neukunden – Ziel</label><input id="znk" type="number" min="0" step="1" value="8"></div>
+      <div><label>Neukunden – Ist</label><input id="ink" type="number" min="0" step="1" value="10"></div>
+      <div><label>Arbeitsplätze – Ziel</label><input id="zap" type="number" min="0" step="1" value="40"></div>
+      <div><label>Arbeitsplätze – Ist</label><input id="iap" type="number" min="0" step="1" value="35"></div>
+      <div><label>Module – Ziel</label><input id="zmod" type="number" min="0" step="1" value="24"></div>
+      <div><label>Module – Ist</label><input id="imod" type="number" min="0" step="1" value="18"></div>
+      <div><label>SLA (%)</label><input id="sla" type="number" min="0" max="100" step="1" value="90"></div>
+      <div><label>Leadpflege vollständig (%)</label><input id="lead" type="number" min="0" max="100" step="1" value="90"></div>
     </div>
-</section>
-<section>
-<h2>Ergebnisse</h2>
-<div class="output">
-<div class="kpi">
-<h3>Gesamtscore (final)</h3>
-<div class="val" id="score">–</div>
-<div class="small">Max: <span id="maxScore">–</span></div>
-<div class="barwrap"><div class="bar"><i id="scoreBar"></i></div></div>
-</div>
-<div class="kpi">
-<h3>Stufe (final)</h3>
-<div class="val"><span class="badge" id="tierFinal">–</span></div>
-<div class="small" id="qualMsg"></div>
-</div>
-<div class="kpi">
-<h3>Teil‑Erfüllungen (0–100 %)</h3>
-<div class="small">NK / AP / MOD / Q</div>
-<div class="barwrap">
-<div class="bar"><i id="bNk"></i></div>
-<div class="bar"><i id="bAp"></i></div>
-<div class="bar"><i id="bMod"></i></div>
-<div class="bar"><i id="bQ"></i></div>
-</div>
-</div>
-</div>
-<div class="row" style="margin-top:12px">
-<button class="btn" onclick="resetDefaults()">Zurücksetzen</button>
-<button class="btn" onclick="exportCSV()">CSV exportieren</button>
-<span class="small">Diese Datei läuft ohne Installation – einfach im Browser öffnen.</span>
-</div>
-</section>
+  </section>
+
+  <section>
+    <h2>Parameter – Gewichte, Cap & Schwellen</h2>
+    <div class="grid">
+      <div><label>Gewicht Neukunden</label><input id="wNk" type="number" min="0" max="1" step="0.01" value="0.30"></div>
+      <div><label>Gewicht Arbeitsplätze</label><input id="wAp" type="number" min="0" max="1" step="0.01" value="0.20"></div>
+      <div><label>Gewicht Modulverkauf</label><input id="wMod" type="number" min="0" max="1" step="0.01" value="0.20"></div>
+      <div><label>Gewicht Qualität</label><input id="wQ" type="number" min="0" max="1" step="0.01" value="0.30"></div>
+      <div><label>Overachievement je Säule (Cap x‑fach, nur NK/AP/MOD)</label><input id="cap" type="number" min="1" max="3" step="0.05" value="1.50"></div>
+      <div><label>Silber‑Schwelle</label><input id="thSilber" type="number" min="0" max="300" step="1" value="60"></div>
+      <div><label>Gold‑Schwelle</label><input id="thGold" type="number" min="0" max="300" step="1" value="80"></div>
+      <div><label>Platin‑Schwelle</label><input id="thPlatin" type="number" min="0" max="300" step="1" value="125"></div>
+      <div><label>SLA‑Mindestwert (%)</label><input id="thSLA" type="number" min="0" max="100" step="1" value="90"></div>
+      <div><label>Lead‑Mindestwert (%)</label><input id="thLead" type="number" min="0" max="100" step="1" value="90"></div>
+    </div>
+    <div class="small" style="margin-top:8px">
+      <b>Hinweis:</b> Der <em>Cap</em> gilt nur für NK/AP/MOD und erlaubt Erfüllungen &gt; 100&nbsp;% (z.&nbsp;B. 120&nbsp;%, 140&nbsp;%).
+      Qualität ist 0–100&nbsp;% und wird nicht über 100&nbsp;% erhöht.
+    </div>
+  </section>
+
+  <section>
+    <h2>Ergebnisse</h2>
+    <div class="output">
+      <div class="kpi">
+        <h3>Gesamtscore (final)</h3>
+        <div class="val" id="score">–</div>
+        <div class="small">Max: <span id="maxScore">–</span></div>
+        <div class="barwrap"><div class="bar"><i id="scoreBar"></i></div></div>
+      </div>
+      <div class="kpi">
+        <h3>Stufe (final)</h3>
+        <div class="val"><span id="tierFinal" class="badge qp">–</span></div>
+        <div class="small" id="qualMsg"></div>
+      </div>
+      <div class="kpi">
+        <h3>Teil‑Erfüllungen (0–100&nbsp;%)</h3>
+        <div class="small">NK / AP / MOD / Q</div>
+        <div class="barwrap">
+          <div class="bar"><i id="bNk"></i></div>
+          <div class="bar"><i id="bAp"></i></div>
+          <div class="bar"><i id="bMod"></i></div>
+          <div class="bar"><i id="bQ"></i></div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <button class="btn" onclick="resetDefaults()">Zurücksetzen</button>
+      <button class="btn" onclick="exportCSV()">CSV exportieren</button>
+      <span class="small">Diese Datei läuft ohne Installation – einfach im Browser öffnen.</span>
+    </div>
+  </section>
 </main>
 <footer>
   © INDAMED – Beispielrechner. Formel: Score = 100 × Σ(Gewicht × Erfüllung). Qualitäts‑Faktor: 1,00 (ok) · 0,90 (ein Kriterium verfehlt) · 0,80 (beide). Kein Stufendeckel.
 </footer>
 <script>
 function clamp(v,min,max){return Math.max(min,Math.min(max,v));}
-function tierFromScore(s, th){ if(s>=th.platin) return "Platin"; if(s>=th.gold) return "Gold"; if(s>=th.silber) return "Silber"; return "Bronze"; }
-function clsForTier(t){ return {Bronze:"badge bronze", Silber:"badge silber", Gold:"badge gold", Platin:"badge platin"}[t]||"badge"; }
+function clsForTier(t){ return {"Qualifizierter Partner":"badge qp", Silber:"badge silber", Gold:"badge gold", Platin:"badge platin"}[t]||"badge"; }
 function readNum(id){ return parseFloat(document.getElementById(id).value)||0; }
 function setBar(id, frac){ document.getElementById(id).style.width = (clamp(frac,0,1)*100).toFixed(0)+"%"; }
+function tierFromScore(s, th){
+  if (s>=th.platin) return "Platin";
+  if (s>=th.gold) return "Gold";
+  if (s>=th.silber) return "Silber";
+  return "Qualifizierter Partner";
+}
 
 function calc(){
   // Inputs
@@ -130,8 +136,8 @@ function calc(){
   const wSum = wNk+wAp+wMod+wQ;
   if (Math.abs(wSum-1) > 1e-6) {
     document.getElementById("score").innerText="Gewichte ≠ 1,00 (aktuell: "+wSum.toFixed(2)+")";
-    document.getElementById("tierFinal").innerText="–";
-    document.getElementById("tierFinal").className="badge";
+    const fin = document.getElementById("tierFinal");
+    fin.innerText = "—"; fin.className = "badge qp";
     document.getElementById("qualMsg").innerText="";
     setBar("scoreBar", 0);
     ["bNk","bAp","bMod","bQ"].forEach(id=>setBar(id,0));
@@ -145,7 +151,7 @@ function calc(){
   const fNk = Math.min(fNkRaw, cap);
   const fAp = Math.min(fApRaw, cap);
   const fMod = Math.min(fModRaw, cap);
-  const fQ  = ((sla/100)+(lead/100))/2; // no cap > 100%
+  const fQ  = ((sla/100)+(lead/100))/2; // 0..1
 
   // Part scores
   const partNk = 100*(wNk*fNk);
@@ -168,10 +174,7 @@ function calc(){
   const maxScore = 100*(wNk*cap + wAp*cap + wMod*cap + wQ*1.0);
 
   // Final tier
-  let finalTier = "Bronze";
-  if (finalScore >= th.platin) finalTier = "Platin";
-  else if (finalScore >= th.gold) finalTier = "Gold";
-  else if (finalScore >= th.silber) finalTier = "Silber";
+  const finalTier = tierFromScore(finalScore, th);
 
   // Output
   document.getElementById("score").innerText = finalScore.toFixed(1) + " Punkte";
